@@ -44,7 +44,7 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
     ```
     
 6. Si vous y êtes invité, choisissez l’abonnement à utiliser (uniquement si vous avez accès à plusieurs abonnements Azure).
-7. Quand vous y êtes invité, définissez un mot de passe approprié pour votre pool SQL Azure Synapse.
+7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
 
     > **Remarque** : veillez à mémoriser ce mot de passe.
 
@@ -62,15 +62,16 @@ Avant d’automatiser un processus de transformation de données avec un noteboo
 6. Sélectionnez le conteneur de fichiers. Notez qu’il contient un dossier nommé **data** avec les fichiers de données que vous allez transformer.
 7. Ouvrez le dossier **data**** et affichez les fichiers CSV qu’il contient. Cliquez avec le bouton droit sur l’un des fichiers, puis sélectionnez **Aperçu** pour afficher un exemple de données. Fermez l’aperçu lorsque vous avez terminé.
 8. Dans Synapse Studio, dans la page **Développer**, développez **Notebooks** et ouvrez le notebook **Spark Transform**.
+
+    > **Remarque** : si vous constatez que le notebook n’est pas chargé pendant le script d’exécution, vous devez télécharger le fichier nommé Spark Transform.ipynb à partir de GitHub [Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) et le charger sur Synapse.
+
 9. Passez en revue le code que contient le notebook et notez qu’il :
     - Définit une variable pour définir un nom de dossier unique.
     - Charge les données de commandes CSV à partir du dossier **/data**.
     - Transforme les données en fractionnant le nom du client en plusieurs champs.
     - Enregistre les données transformées au format Parquet dans le dossier au nom unique.
 10. Dans la barre d’outils du notebook, attachez le notebook à votre pool Spark **spark*xxxxxxx***, puis utilisez le bouton **▷ Exécuter tout** pour exécuter toutes les cellules de code dans le notebook.
-
-    > **Remarque** : si vous constatez que le notebook n’est pas chargé pendant le script d’exécution, vous devez télécharger le fichier nommé Spark Transform.ipynb à partir de GitHub [Allfiles/labs/11/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/11/notebooks) et le charger sur Synapse.
-    
+  
     Le démarrage de l’exécution des cellules de code de la session Spark peut prendre quelques minutes.
 
 11. Lorsque toutes les cellules du notebook ont été exécutées, notez le nom du dossier dans lequel les données transformées ont été enregistrées.
