@@ -16,16 +16,16 @@ Vous avez besoin d’un [abonnement Azure](https://azure.microsoft.com/free) dan
 
 ## Provisionner un espace de travail Azure Synapse Analytics
 
-Un *espace de travail* Azure Synapse Analytics permet de gérer les données et les exécutions de traitement des données de manière centralisée. Vous pouvez approvisionner un espace de travail à l’aide de l’interface interactive dans le portail Azure, ou vous pouvez déployer un espace de travail et les ressources qu’il contient à l’aide d’un script ou d’un modèle. Dans la plupart des scénarios de production, il est préférable d’automatiser l’approvisionnement avec des scripts et des modèles afin d’incorporer le déploiement de ressources dans un processus de développement et d’opérations reproductibles (*DevOps*).
+Un *espace de travail* Azure Synapse Analytics constitue un point central pour la gestion des données et des temps d’exécution du traitement des données. Vous pouvez mettre à disposition un espace de travail à l’aide de l’interface interactive du portail Azure, ou vous pouvez déployer un espace de travail et les ressources qu’il contient à l’aide d’un script ou d’un modèle. Dans la plupart des scénarios de production, il est préférable d’automatiser la mise à disposition à l’aide de scripts et de modèles afin d’intégrer le déploiement des ressources dans un processus de développement et d’opérations reproductibles (*DevOps*).
 
 Dans cet exercice, vous allez utiliser une combinaison d’un script PowerShell et d’un modèle ARM pour approvisionner Azure Synapse Analytics.
 
 1. Dans un navigateur web, connectez-vous au [portail Azure](https://portal.azure.com) à l’adresse `https://portal.azure.com`.
-2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***PowerShell*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
+2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***PowerShell*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
 
     ![Portail Azure avec un volet Cloud Shell](./images/cloud-shell.png)
 
-    > **Remarque** : si vous avez déjà créé un interpréteur de commandes cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet de l’interpréteur de commandes cloud pour le remplacer par ***PowerShell***.
+    > **Remarque** : si vous avez créé un shell cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
 
 3. Notez que vous pouvez redimensionner le volet Cloud Shell en faisant glisser la barre de séparation en haut du volet. Vous pouvez aussi utiliser les icônes **&#8212;** , **&#9723;** et **X** situées en haut à droite du volet pour réduire, agrandir et fermer le volet. Pour plus d’informations sur l’utilisation d’Azure Cloud Shell, consultez la [documentation Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview).
 
@@ -44,7 +44,7 @@ Dans cet exercice, vous allez utiliser une combinaison d’un script PowerShell 
     ```
 
 6. Si vous y êtes invité, choisissez l’abonnement à utiliser (uniquement si vous avez accès à plusieurs abonnements Azure).
-7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
+7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
 
     > **Remarque** : veillez à mémoriser ce mot de passe. En outre, le mot de passe ne doit pas contenir l’ensemble ou une partie du nom de connexion.
 
@@ -73,8 +73,6 @@ Dans cet exercice, vous allez utiliser une combinaison d’un script PowerShell 
         - **sql*xxxxxxx*** : pool SQL *dédié* qui héberge une base de données d’entrepôt de données relationnelle.
     - **Pools Apache Spark** :
         - **spark*xxxxxxx*** : pool que vous pouvez utiliser à la demande pour explorer ou traiter des données dans un lac de données à l’aide de langages de programmation tels que Scala ou Python.
-<!---    - **Data Explorer pools**:
-        - **adx*xxxxxxx***: A Data Explorer pool that you can use to analyze data by using Kusto Query Language (KQL). --->
 
 ## Ingérer des données avec un pipeline
 
@@ -439,4 +437,4 @@ Maintenant que vous avez terminé l’exploration d’Azure Synapse Analytics, v
 4. Au sommet de la page **Vue d’ensemble** de votre groupe de ressources, sélectionnez **Supprimer le groupe de ressources**.
 5. Entrez le nom du groupe de ressources **dp203-*xxxxxxx*** pour confirmer que vous souhaitez le supprimer, puis sélectionnez **Supprimer**.
 
-    Après quelques minutes, le groupe de ressources de votre espace de travail Azure Synapse et le groupe de ressources de l’espace de travail managé qui lui est associé seront supprimés.
+    Après quelques minutes, le groupe de ressources de l’espace de travail Azure Synapse et le groupe de ressources managé de l’espace de travail qui lui est associé seront supprimés.
