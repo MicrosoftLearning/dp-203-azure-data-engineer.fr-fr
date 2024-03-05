@@ -21,11 +21,11 @@ Pour prendre en charge une base de données de lac, vous avez besoin d’un espa
 Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell et d’un modèle ARM pour approvisionner un espace de travail Azure Synapse Analytics.
 
 1. Connectez-vous au [portail Azure](https://portal.azure.com) à l’adresse `https://portal.azure.com`.
-2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***PowerShell*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
+2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, puis sélectionnez un environnement ***PowerShell*** et créez le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
 
     ![Portail Azure avec un volet Cloud Shell](./images/cloud-shell.png)
 
-    > **Remarque** : si vous avez déjà créé un interpréteur de commandes cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet de l’interpréteur de commandes cloud pour le remplacer par ***PowerShell***.
+    > **Remarque** : Si vous avez déjà créé une instance de Cloud Shell qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour passer à ***PowerShell***.
 
 3. Notez que vous pouvez redimensionner le volet Cloud Shell en faisant glisser la barre de séparation en haut du volet. Vous pouvez aussi utiliser les icônes **&#8212;** , **&#9723;** et **X** situées en haut à droite du volet pour réduire, agrandir et fermer le volet. Pour plus d’informations sur l’utilisation d’Azure Cloud Shell, consultez la [documentation Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview).
 
@@ -44,7 +44,7 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
     ```
 
 6. Si vous y êtes invité, choisissez l’abonnement à utiliser (uniquement si vous avez accès à plusieurs abonnements Azure).
-7. Lorsque vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool SQL Azure Synapse.
+7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
 
     > **Remarque** : veillez à mémoriser ce mot de passe.
 
@@ -52,8 +52,8 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
 
 ## Modifier les autorisations du conteneur
 
-1. Une fois le script de déploiement terminé, dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** qu’il a créé, et notez que ce groupe de ressources contient votre espace de travail Synapse, un compte de stockage pour votre lac de données et un pool Apache Spark.
-1. Sélectionnez le **Compte de stockage** de votre lac de données nommé **datalakexxxxxxx**. 
+1. Une fois le script de déploiement terminé, dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** créé. Notez que ce groupe de ressources contient votre espace de travail Synapse, un compte de stockage pour votre lac de données et un pool Apache Spark.
+1. Sélectionnez le **Compte de stockage** pour votre lac de données nommé **datalakexxxxxxx**. 
 
      ![Navigation du lac de données vers le conteneur](./images/datalakexxxxxx-storage.png)
 
@@ -61,7 +61,7 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
 
     ![Sélectionner le dossier files dans le conteneur de lac de données](./images/dp203-Container.png)
 
-1. Dans le dossier **files**, vous constaterez que la **Méthode d’authentification :** répertoriée est ***Clé d’accès (Basculer vers un compte d’utilisateur Azure AD)***. Cliquez dessus pour passer au compte d’utilisateur Azure AD.
+1. Dans le **dossier files**, notez que la **Méthode d’authentification** indique ***Clé d’accès (Basculer sur un compte d’utilisateur Entra)***. Cliquez dessus pour passer à un compte d’utilisateur Entra.
 
     ![Passer au compte d’utilisateur Azure AD](./images/dp203-switch-to-aad-user.png)
 ## Créer une base de données de lac
@@ -91,24 +91,24 @@ Maintenant que vous avez créé une base de données de lac, vous pouvez défini
 
     | Nom | Clés | Description | Possibilité de valeurs nulles | Type de données | Format / Longueur |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
-    | Customerid | PK  | ID client unique | &#128454;  | long | |
+    | CustomerId | PK  | ID client unique | &#128454;  | long | |
 
 5. Dans la liste **+ Colonne**, sélectionnez **Nouvelle colonne** et modifiez la nouvelle définition de colonne pour ajouter une colonne **FirstName** à la table comme suit :
 
     | Nom | Clés | Description | Possibilité de valeurs nulles | Type de données | Format / Longueur |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
-    | Customerid | PK  | ID client unique | &#128454;  | long | |
+    | CustomerId | PK  | ID client unique | &#128454;  | long | |
     | **FirstName** | **PK ** | **Prénom du client** | **&#128454;** | **string** | **256** |
 
 6. Ajoutez d’autres colonnes jusqu’à ce que la définition de table ressemble à ceci :
 
     | Nom | Clés | Description | Possibilité de valeurs nulles | Type de données | Format / Longueur |
     | ---- | ---- | ----------- | ----------- | --------- | --------------- |
-    | Customerid | PK  | ID client unique | &#128454;  | long | |
+    | CustomerId | PK  | ID client unique | &#128454;  | long | |
     | FirstName | PK  | Prénom du client | &#128454; | string | 256 |
     | LastName | PK  | Nom du client | &#128505; | string | 256 |
     | EmailAddress | PK  | Adresse e-mail du client | &#128454; | string | 256 |
-    | Téléphone | PK  | Numéro de téléphone du client | &#128505; | string | 256 |
+    | votre numéro de | PK  | Numéro de téléphone du client | &#128505; | string | 256 |
 
 7. Lorsque vous avez ajouté toutes les colonnes, publiez à nouveau la base de données pour enregistrer les modifications.
 8. Dans le volet **Données** à gauche, revenez à l’onglet **Espace de travail** pour voir la base de données de lac **RetailDB**. Développez-la ensuite et actualisez son dossier **Tables** pour voir la table **Customer** nouvellement créée.
@@ -150,7 +150,7 @@ Comme vous l’avez vu, vous pouvez créer les tables dont vous avez besoin dans
     | ProductName | PK  | Nom du produit. | &#128505; | string | 128 |
     | IntroductionDate | PK  | Date à laquelle le produit a été commercialisé. | &#128505; | date | AAAA-MM-JJ |
     | ActualAbandonmentDate | PK  | Date réelle à laquelle le produit n’a plus fait l’objet d’un marketing. | &#128505; | date | AAAA-MM-JJ |
-    | ProductGrossWeight | PK  | Poids brut du produit. | &#128505; | Décimal | 18,8 |
+    | ProductGrossWeight | PK  | Poids brut du produit. | &#128505; | decimal | 18,8 |
     | ItemSku | PK  | Identificateur de l’unité de gestion de stock. | &#128505; | string | 20 |
 
 8. Ajoutez une nouvelle colonne nommée **ListPrice** à la table, comme indiqué ici :
@@ -161,7 +161,7 @@ Comme vous l’avez vu, vous pouvez créer les tables dont vous avez besoin dans
     | ProductName | PK  | Nom du produit. | &#128505; | string | 128 |
     | IntroductionDate | PK  | Date à laquelle le produit a été commercialisé. | &#128505; | date | AAAA-MM-JJ |
     | ActualAbandonmentDate | PK  | Date réelle à laquelle le produit n’a plus fait l’objet d’un marketing. | &#128505; | date | AAAA-MM-JJ |
-    | ProductGrossWeight | PK  | Poids brut du produit. | &#128505; | Décimal | 18,8 |
+    | ProductGrossWeight | PK  | Poids brut du produit. | &#128505; | decimal | 18,8 |
     | ItemSku | PK  | Identificateur de l’unité de gestion de stock. | &#128505; | string | 20 |
     | **ListPrice** | **PK ** | **Prix du produit.** | **&#128454;** | **decimal** | **18,2** |
 
@@ -210,9 +210,9 @@ Jusqu’à présent, vous avez créé des tables, puis les avez remplies de donn
     | SalesOrderId | PK  | Identificateur unique d’une commande. | &#128454;  | long | |
     | OrderDate | PK  | Date de la commande. | &#128454; | timestamp | yyyy-MM-dd |
     | LineItemId | PK  | ID d’un article individuel. | &#128454; | long | |
-    | Customerid | PK  | Client. | &#128454; | long | |
+    | CustomerId | PK  | Client. | &#128454; | long | |
     | ProductId | PK  | Produit. | &#128454; | long | |
-    | Quantity | PK  | Quantité commandée. | &#128454; | long | |
+    | Quantité | PK  | Quantité commandée. | &#128454; | long | |
 
     > **Remarque** : la table contient un enregistrement pour chaque article individuel commandé et inclut une clé primaire composite constituée de **SalesOrderId** et **LineItemId**.
 
@@ -220,7 +220,7 @@ Jusqu’à présent, vous avez créé des tables, puis les avez remplies de donn
 
     | De la table | De la colonne | Vers la table | Vers la colonne |
     | ---- | ---- | ----------- | ----------- |
-    | Client | Customerid | Commande client | Customerid |
+    | Client | CustomerId | Commande client | CustomerId |
 
 6. Ajoutez une seconde relation *Vers la table* avec les paramètres suivants :
 
@@ -285,8 +285,8 @@ Si vous avez fini d’explorer Azure Synapse Analytics, vous devriez supprimer l
 
 1. Fermez l’onglet du navigateur Synapse Studio et revenez dans le portail Azure.
 2. Dans le portail Azure, dans la page **Accueil**, sélectionnez **Groupes de ressources**.
-3. Sélectionnez le groupe de ressources **dp203-*xxxxxxx*** pour votre espace de travail Synapse Analytics (et non le groupe de ressources géré). Vérifiez s’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark pour votre espace de travail.
+3. Sélectionnez le groupe de ressources **dp203-*xxxxxxx*** de votre espace de travail Synapse Analytics (et non le groupe de ressources managé) et vérifiez qu’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark de votre espace de travail.
 4. Au sommet de la page **Vue d’ensemble** de votre groupe de ressources, sélectionnez **Supprimer le groupe de ressources**.
 5. Entrez le nom du groupe de ressources **dp203-*xxxxxxx*** pour confirmer que vous souhaitez le supprimer, puis sélectionnez **Supprimer**.
 
-    Après quelques minutes, votre espace de travail Azure Synapse et l’espace de travail managé qui lui est associé seront supprimés.
+    Après quelques minutes, le groupe de ressources de l’espace de travail Azure Synapse et le groupe de ressources managé de l’espace de travail qui lui est associé seront supprimés.
