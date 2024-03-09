@@ -62,10 +62,10 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
 6. Développez votre compte de stockage et vérifiez qu’il contient un conteneur de système de fichiers nommé **fichier (Primaire)**.
 7. Sélectionnez le conteneur de **fichiers** et notez qu’il contient des dossiers nommés **données** et **synapse**. Le dossier synapse est utilisé par Azure Synapse et le dossier **données** contient les fichiers de données que vous allez interroger.
 8. Ouvrez le dossier **données** et observez qu’il contient des fichiers .csv pour trois années de données de ventes.
-9. Cliquez avec le bouton droit sur l’un des fichiers et sélectionnez **Aperçu** pour afficher les données qu’il contient. Notez que les fichiers contiennent une ligne d’en-tête. Vous pouvez donc sélectionner l’option permettant d’afficher des en-têtes de colonnes.
+9. Cliquez avec le bouton droit sur l’un des fichiers et sélectionnez **Aperçu** pour afficher les données qu’il contient. Notez que les fichiers contiennent une ligne d’en-tête. Vous pouvez donc sélectionner l’option permettant d’afficher les en-têtes de colonnes.
 10. Fermez l’aperçu. Télécharger ensuite le fichier **Spark Transform.ipynb** à [partir de Allfiles/labs/06/notebooks](https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/06/notebooks)
 
-    > **Remarque** : il est préférable de copier ce texte en utilisant ***Ctrl+A***, ***Ctrl+C***, puis de le coller en utilisant ***Ctrl+V*** dans un outil tel que le Bloc-notes. Sélectionnez ensuite le fichier, puis enregistrez-le sous le nom **Spark Transform.ipynb** avec le type de fichier ***Tous les fichiers***. Vous pouvez également télécharger le fichier en cliquant dessus, puis sélectionnez les points de suspension, enfin téléchargez en vous souvenant de l’emplacement où vous l’avez enregistré.
+    > **Remarque** : il est préférable de copier ce texte en utilisant ***Ctrl+A***, ***Ctrl+C***, puis de le coller en utilisant ***Ctrl+V*** dans un outil tel que le Bloc-notes. Sélectionnez ensuite le fichier, puis enregistrez-le sous le nom **Spark Transform.ipynb** avec le type de fichier ***Tous les fichiers***. Vous pouvez également télécharger le fichier en cliquant dessus, puis sélectionnez les points de suspension (...), enfin téléchargez en vous souvenant de l’emplacement où vous l’avez enregistré.
     ![Télécharger un notebook Spark à partir de GitHub](./images/select-download-notebook.png)
 
 11. Ensuite, sur la page **Développer**, développer **Notebooks** et cliquer sur l’option + Importer
