@@ -67,29 +67,28 @@ Avant d’automatiser un processus de transformation de données avec un noteboo
     > **Remarque** : il est préférable de copier ce texte en utilisant ***Ctrl+A***, ***Ctrl+C***, puis de le coller en utilisant ***Ctrl+V*** dans un outil tel que le Bloc-notes. Sélectionnez ensuite Fichier, Enregistrer sous et enregistrez le fichier avec le nom **Spark Transform.ipynb** et le type de fichier ***tous les fichiers***. Vous pouvez également sélectionner le fichier dans GitHub, sélectionner les points de suspension (...), puis choisir **Télécharger** pour enregistrer le fichier dans un emplacement facile à retrouver. 
     ![Télécharger le fichier de notebook à partir de GitHub](./images/select-download-notebook.png)
 
-10. Ensuite, dans la page **Développer**, développez **Notebooks** et cliquez sur l’option + Importer.
-
-    ![Spark Notebook import](./image/../images/spark-notebook-import.png)
+10. Ensuite, dans la page **Développer**, développez **Notebooks** et cliquez sur les options + Importer ![Importer un notebook Spark](./images/spark-notebook-import.png)
+    
         
-12. Sélectionnez le fichier que vous venez de télécharger et d’enregistrer sous le nom **Spark Transfrom.ipynb**.
-13. Attachez le notebook à votre pool Spark **spark*xxxxxxx***.
-14. Passez en revue les notes du notebook et exécutez les cellules de code.
+1. Sélectionnez le fichier que vous venez de télécharger et d’enregistrer sous le nom **Spark Transfrom.ipynb**.
+2. Attachez le notebook à votre pool Spark **spark*xxxxxxx***.
+3. Passez en revue les notes du notebook et exécutez les cellules de code.
 
     > **Remarque** : l’exécution de la première cellule de code prend quelques minutes, car le pool Spark doit être démarré. Les cellules suivantes s’exécutent plus rapidement.
-9. Passez en revue le code que contient le notebook et notez qu’il :
+4. Passez en revue le code que contient le notebook et notez qu’il :
     - Définit une variable pour définir un nom de dossier unique.
     - Charge les données de commandes CSV à partir du dossier **/data**.
     - Transforme les données en fractionnant le nom du client en plusieurs champs.
     - Enregistre les données transformées au format Parquet dans le dossier au nom unique.
-10. Dans la barre d’outils du notebook, attachez le notebook à votre pool Spark **spark*xxxxxxx***, puis utilisez le bouton **▷ Exécuter tout** pour exécuter toutes les cellules de code dans le notebook.
+5. Dans la barre d’outils du notebook, attachez le notebook à votre pool Spark **spark*xxxxxxx***, puis utilisez le bouton **▷ Exécuter tout** pour exécuter toutes les cellules de code dans le notebook.
   
     Le démarrage de l’exécution des cellules de code de la session Spark peut prendre quelques minutes.
 
-11. Lorsque toutes les cellules du notebook ont été exécutées, notez le nom du dossier dans lequel les données transformées ont été enregistrées.
-12. Passez à l’onglet **Fichiers** (qui doit toujours être ouvert) et affichez le dossier racine **files**. Si nécessaire, dans le menu **Plus**, sélectionnez **Actualiser** pour afficher le nouveau dossier. Ouvrez-le ensuite pour vérifier qu’il contient des fichiers Parquet.
-13. Revenez au dossier racine **files** et sélectionnez le dossier au nom unique généré par le notebook puis, dans le menu **Nouveau script SQL**, sélectionnez **Sélectionner les 100 premières lignes**.
-14. Dans le volet **Sélectionner les 100 premières lignes**, définissez le type de fichier sur **Format Parquet** et appliquez la modification.
-15. Dans le volet de nouveau script SQL qui s’ouvre, utilisez le bouton **▷ Exécuter** pour exécuter le code SQL et vérifier qu’il retourne les données de commandes transformées.
+6. Lorsque toutes les cellules du notebook ont été exécutées, notez le nom du dossier dans lequel les données transformées ont été enregistrées.
+7. Passez à l’onglet **Fichiers** (qui doit toujours être ouvert) et affichez le dossier racine **files**. Si nécessaire, dans le menu **Plus**, sélectionnez **Actualiser** pour afficher le nouveau dossier. Ouvrez-le ensuite pour vérifier qu’il contient des fichiers Parquet.
+8. Revenez au dossier racine **files** et sélectionnez le dossier au nom unique généré par le notebook puis, dans le menu **Nouveau script SQL**, sélectionnez **Sélectionner les 100 premières lignes**.
+9. Dans le volet **Sélectionner les 100 premières lignes**, définissez le type de fichier sur **Format Parquet** et appliquez la modification.
+10. Dans le volet de nouveau script SQL qui s’ouvre, utilisez le bouton **▷ Exécuter** pour exécuter le code SQL et vérifier qu’il retourne les données de commandes transformées.
 
 ## Exécuter le notebook dans un pipeline
 
