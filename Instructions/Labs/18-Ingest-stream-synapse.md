@@ -25,11 +25,11 @@ Dans cet exercice, vous aurez besoin d’un espace de travail Azure Synapse An
 Vous allez utiliser la combinaison d’un script PowerShell et d’un modèle ARM pour approvisionner ces ressources.
 
 1. Connectez-vous au [portail Azure](https://portal.azure.com) à l’adresse `https://portal.azure.com`.
-2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***PowerShell*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
+2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, puis sélectionnez un environnement ***PowerShell*** et créez le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
 
     ![Portail Azure avec un volet Cloud Shell](./images/cloud-shell.png)
 
-    > **Remarque** : si vous avez déjà créé un interpréteur de commandes cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet de l’interpréteur de commandes cloud pour le remplacer par ***PowerShell***.
+    > **Remarque** : si vous avez créé un shell cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
 
 3. Notez que vous pouvez redimensionner le volet Cloud Shell en faisant glisser la barre de séparation en haut du volet. Vous pouvez aussi utiliser les icônes **&#8212;** , **&#9723;** et **X** situées en haut à droite du volet pour réduire, agrandir et fermer le volet. Pour plus d’informations sur l’utilisation d’Azure Cloud Shell, consultez la [documentation Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview).
 
@@ -48,7 +48,7 @@ Vous allez utiliser la combinaison d’un script PowerShell et d’un modèle AR
     ```
 
 6. Si vous y êtes invité, choisissez l’abonnement à utiliser (uniquement si vous avez accès à plusieurs abonnements Azure).
-7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool SQL Azure Synapse.
+7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
 
     > **Remarque** : veillez à mémoriser ce mot de passe.
 
@@ -93,7 +93,7 @@ Commençons par ingérer un flux de données directement dans une table dans un 
         - **Comptes de stockage** : sélectionnez le compte de stockage **datalake*xxxxxxx***.
         - **Mode d’authentification** : chaîne de connexion.
         - **Sécuriser les données privées dans le compte de stockage** : sélectionné.
-    - **Étiquettes** :
+    - **Balises :**
         - *Aucun*
 3. Attendez la fin du déploiement, puis accédez à la ressource de tâche Stream Analytics déployée.
 
@@ -181,7 +181,7 @@ Jusqu’à présent, vous avez vu comment utiliser une tâche Stream Analytics 
         - **Comptes de stockage** : sélectionnez le compte de stockage **datalake*xxxxxxx***.
         - **Mode d’authentification** : chaîne de connexion.
         - **Sécuriser les données privées dans le compte de stockage** : sélectionné.
-    - **Étiquettes** :
+    - **Balises :**
         - *Aucun*
 
 2. Attendez la fin du déploiement, puis accédez à la ressource de tâche Stream Analytics déployée.

@@ -16,14 +16,16 @@ Vous avez besoin d’un [abonnement Azure](https://azure.microsoft.com/free) dan
 
 ## Provisionner un espace de travail Azure Databricks
 
-Dans cet exercice, vous allez utiliser un script pour provisionner un nouvel espace de travail Azure Databricks.
+Dans cet exercice, vous allez utiliser un script pour configurer un nouvel espace de travail Azure Databricks.
 
-1. Dans un navigateur web, connectez-vous au [portail Azure](https://portal.azure.com)à l’adresse `https://portal.azure.com`.
+> **Conseil** : si vous disposez déjà d’un espace de travail Azure Databricks *Standard* ou d’*essai*, vous pouvez ignorer cette procédure et utiliser votre espace de travail existant.
+
+1. Dans un navigateur web, connectez-vous au [portail Azure](https://portal.azure.com) à l’adresse `https://portal.azure.com`.
 2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***PowerShell*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
 
     ![Portail Azure avec un volet Cloud Shell](./images/cloud-shell.png)
 
-    > **Remarque** : si vous avez déjà créé un interpréteur de commandes cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
+    > **Remarque** : si vous avez créé un shell cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
 
 3. Notez que vous pouvez redimensionner le volet Cloud Shell en faisant glisser la barre de séparation en haut du volet. Vous pouvez aussi utiliser les icônes **&#8212;** , **&#9723;** et **X** situées en haut à droite du volet pour réduire, agrandir et fermer le volet. Pour plus d’informations sur l’utilisation d’Azure Cloud Shell, consultez la [documentation Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview).
 
@@ -34,7 +36,7 @@ Dans cet exercice, vous allez utiliser un script pour provisionner un nouvel esp
     git clone https://github.com/MicrosoftLearning/dp-203-azure-data-engineer dp-203
     ```
 
-5. Une fois que le référentiel a été cloné, entrez les commandes suivantes pour accéder au dossier de ce labo et exécutez le script **setup.ps1** qu’il contient :
+5. Une fois le référentiel cloné, entrez les commandes suivantes pour accéder au dossier de ce labo et exécutez le script **setup.ps1** qu’il contient :
 
     ```
     cd dp-203/Allfiles/labs/24
@@ -47,28 +49,29 @@ Dans cet exercice, vous allez utiliser un script pour provisionner un nouvel esp
 
 ## Créer un cluster
 
-Azure Databricks est une plateforme de traitement distribuée qui utilise des *clusters Apache Spark* pour traiter des données en parallèle sur plusieurs nœuds. Chaque cluster se compose d’un nœud de pilote pour coordonner le travail et de nœuds Worker pour effectuer des tâches de traitement.
+Azure Databricks est une plateforme de traitement distribuée qui utilise des *clusters Apache Spark* pour traiter des données en parallèle sur plusieurs nœuds. Chaque cluster se compose d’un nœud de pilote pour coordonner le travail et les nœuds Worker pour effectuer des tâches de traitement.
 
-> **Remarque** : dans cet exercice, vous allez créer un cluster *à nœud unique* pour réduire les ressources de calcul utilisées dans l’environnement de labo (dans lequel les ressources peuvent être limitées). Dans un environnement de production, vous créez généralement un cluster avec plusieurs nœuds Worker.
+> **Conseil** : si vous disposez déjà d’un cluster avec une version du runtime 13.3 LTS dans votre espace de travail Azure Databricks, vous pouvez l’utiliser pour effectuer cet exercice et ignorer cette procédure.
 
-1. Dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** créé par le script que vous avez exécuté.
-2. Sélectionnez la ressource Azure Databricks Service **databricks*xxxxxxx***.
-3. Dans la page **Vue d’ensemble** de **databricks*xxxxxxx***, utilisez le bouton **Lancer l’espace de travail** pour ouvrir votre espace de travail Azure Databricks dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
-4. Si un message **Quel est votre projet de données actuel ?** s’affiche, sélectionnez **Terminer** pour le fermer. Affichez ensuite le portail de l’espace de travail Azure Databricks et notez que la barre latérale à gauche contient des icônes pour les différentes tâches que vous pouvez effectuer.
+1. Dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** créé par le script (ou le groupe de ressources contenant votre espace de travail Azure Databricks existant)
+1. Sélectionnez votre ressource de service Azure Databricks (nommée **databricks*xxxxxxx*** si vous avez utilisé le script d’installation pour la créer).
+1. Dans la page **Vue d’ensemble** de votre espace de travail, utilisez le bouton **Lancer l’espace de travail** pour ouvrir votre espace de travail Azure Databricks dans un nouvel onglet de navigateur et connectez-vous si vous y êtes invité.
 
-    >**Conseil** : quand vous utilisez le portail de l’espace de travail Databricks, différents conseils et notifications peuvent être affichés. Ignorez-les et suivez les instructions fournies pour effectuer les tâches de cet exercice.
+    > **Conseil** : lorsque vous utilisez le portail de l’espace de travail Databricks, plusieurs conseils et notifications peuvent s’afficher. Ignorez-les et suivez les instructions fournies pour effectuer les tâches de cet exercice.
 
-1. Sélectionnez la tâche **(+) Nouveau**, puis sélectionnez **Cluster**.
+1. Affichez le portail de l’espace de travail Azure Databricks et notez que la barre latérale gauche contient des icônes indiquant les différentes tâches que vous pouvez effectuer.
+
+1. Sélectionnez la tâche **(+) Nouveau**, puis **Cluster**.
 1. Dans la page **Nouveau cluster**, créez un cluster avec les paramètres suivants :
     - **Nom du cluster** : cluster de *nom d’utilisateur* (nom de cluster par défaut)
     - **Mode cluster** : nœud unique
-    - **Mode d’accès** : un seul utilisateur (*avec votre compte d’utilisateur sélectionné*)
-    - **Version de runtime Databricks** : 12.2 LTS (Scala 2.12, Spark 3.2.2)
+    - **Mode d’accès ** : utilisateur unique (*avec votre compte d’utilisateur sélectionné*)
+    - **Version du runtime Databricks** : 13.3 LTS (Spark 3.4.1, Scala 2.12)
     - **Utiliser l’accélération photon** : sélectionné
     - **Type de nœud** : Standard_DS3_v2
     - **Terminer après** *30* **minutes d’inactivité**
 
-7. Attendez que le cluster soit créé. Cette opération peut prendre une à deux minutes.
+1. Attendez que le cluster soit créé. Cette opération peut prendre une à deux minutes.
 
 > **Remarque** : si votre cluster ne démarre pas, le quota de votre abonnement est peut-être insuffisant dans la région où votre espace de travail Azure Databricks est approvisionné. Pour plus d’informations, consultez l’article [La limite de cœurs du processeur empêche la création du cluster](https://docs.microsoft.com/azure/databricks/kb/clusters/azure-core-limit). Si cela se produit, vous pouvez essayer de supprimer votre espace de travail et d’en créer un dans une autre région. Vous pouvez spécifier une région comme paramètre pour le script d’installation comme suit : `./setup.ps1 eastus`
 
@@ -76,7 +79,7 @@ Azure Databricks est une plateforme de traitement distribuée qui utilise des *c
 
 Comme dans de nombreux environnements Spark, Databricks prend en charge l’utilisation de notebooks pour combiner des notes et des cellules de code interactives que vous pouvez utiliser pour explorer les données.
 
-1. Dans la barre latérale à gauche, sélectionnez **Espaces de travail**. Sélectionnez ensuite le dossier **⌂ Accueil**.
+1. Dans le portail de l’espace de travail Azure Databricks pour votre espace de travail, dans la barre latérale gauche, sélectionnez **Espace de travail**. Sélectionnez ensuite le dossier **⌂ Accueil**.
 1. En haut de la page, dans le menu **⋮** en regard de votre nom d’utilisateur, sélectionnez **Importer**. Ensuite, dans la boîte de dialogue **Importer**, sélectionnez **URL** et importez le notebook à partir de `https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/raw/master/Allfiles/labs/24/Databricks-Spark.ipynb`
 1. Connectez le notebook à votre cluster et suivez les instructions qu’il contient ; en exécutant les cellules qu’il contient pour explorer les données dans les fichiers.
 
