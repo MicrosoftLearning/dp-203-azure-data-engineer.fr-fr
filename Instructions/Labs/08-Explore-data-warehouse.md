@@ -32,14 +32,14 @@ Dans cet exercice, vous allez utiliser une combinaison d’un script PowerShell 
 4. Dans le volet PowerShell, entrez les commandes suivantes pour cloner ce référentiel :
 
     ```
-    rm -r dp500 -f
-    git clone https://github.com/MicrosoftLearning/DP-500-Azure-Data-Analyst dp500
+    rm -r dp203 -f
+    git clone  https://github.com/MicrosoftLearning/Dp-203-azure-data-engineer dp203
     ```
 
 5. Une fois le référentiel cloné, entrez les commandes suivantes pour accéder au dossier de ce labo et exécutez le script **setup.ps1** qu’il contient :
 
     ```
-    cd dp500/Allfiles/03
+    cd dp203/Allfiles/labs/08
     ./setup.ps1
     ```
 
