@@ -117,6 +117,7 @@ Vous êtes maintenant prêt à configurer Azure Synapse Link pour SQL dans votr
         - **Nom** : SqlAdventureWorksLT.
         - **Description** : Connexion à la base de données AdventureWorksLT
         - **Se connecter via un runtime d'intégration** : AutoResolveIntegrationRuntime
+        - **Version** : Ancien
         - **Chaîne de connexion** :sélectionné.
         - **À partir de l’abonnement Azure** : sélectionné
         - **Abonnement Azure** : *sélectionnez votre abonnement Azure.*
