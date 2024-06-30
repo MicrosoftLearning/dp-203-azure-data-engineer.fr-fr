@@ -39,7 +39,7 @@ Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell e
 5. Une fois le référentiel cloné, entrez les commandes suivantes pour accéder au dossier de ce labo et exécutez le script **setup.ps1** qu’il contient :
 
     ```
-    cd dp203/Allfiles/02
+    cd dp203/Allfiles/labs/02
     ./setup.ps1
     ```
 
