@@ -56,8 +56,11 @@ Le script configure un espace de travail Azure Synapse Analytics et un compte 
 
 ### Afficher les fichiers dans le lac de données
 
-1. Une fois le script terminé, dans le portail Azure, accédez au groupe de ressources **dp500-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
-2. Dans la page **Vue d’ensemble** de votre espace de travail Synapse, dans la carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
+> **Remarque** : il peut être nécessaire de créer le dossier **sales**, puis les dossiers **csv**, **json** et **parquet** dans le dossier **sales**. Une fois que vous avez terminé, vous pouvez télécharger les fichiers de votre ordinateur local vers un dossier dont vous vous souvenez, puis charger les fichiers dans les dossiers appropriés que vous avez créés ci-dessus.
+> Vous pouvez télécharger les fichiers depuis l’emplacement suivant : https://github.com/MicrosoftLearning/dp-203-azure-data-engineer/tree/master/Allfiles/labs/02/data
+
+1. Une fois le script terminé, dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
+2. Dans la page **Vue d’ensemble** de votre espace de travail Synapse, dans la carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
 3. Sur le côté gauche de Synapse Studio, utilisez l’icône **&rsaquo;&rsaquo;** pour développer le menu. Cela permet d’afficher les différentes pages de Synapse Studio qui vous permettront de gérer les ressources et d’effectuer des tâches d’analytique de données.
 4. Sur la page **Gérer**, sélectionnez l’onglet **Pools Apache Spark** et notez qu’un pool Spark portant un nom similaire à **spark*xxxxxxx*** a été provisionné dans l’espace de travail. Vous utiliserez ce pool Spark plus tard pour charger et analyser des données contenues dans les fichiers du lac de données stockés dans l’espace de travail.
 5. Dans la page **Données**, affichez l’onglet **Lié** et vérifiez que votre espace de travail inclut un lien vers votre compte de stockage Azure Data Lake Storage Gen2, qui doit avoir un nom similaire à **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
