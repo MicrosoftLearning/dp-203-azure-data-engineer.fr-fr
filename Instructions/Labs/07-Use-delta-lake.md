@@ -4,9 +4,9 @@ lab:
   ilt-use: Lab
 ---
 
-# Utiliser Delta Lake dans Azure Synapse Analytics
+# Utiliser Delta Lake avec Spark dans Azure Synapse Analytics
 
-Delta Lake est un projet code source ouvert pour créer une couche de stockage de données transactionnelle au-dessus d’un lac de données. Delta Lake ajoute la prise en charge de la sémantique relationnelle pour les opérations de données par lots et de streaming, et permet la création d’une architecture Lakehouse, dans laquelle Apache Spark peut être utilisé pour traiter et interroger des données dans des tables basées sur des fichiers sous-jacents dans un lac de données.
+Delta Lake est un projet open source pour créer une couche de stockage de données transactionnelles au-dessus d’un lac de données. Delta Lake ajoute la prise en charge de la sémantique relationnelle pour les opérations de données par lots et de streaming, et permet la création d’une architecture *Lakehouse*, dans laquelle Apache Spark peut être utilisé pour traiter et interroger des données dans des tables basées sur des fichiers sous-jacents dans le lac de données.
 
 Cet exercice devrait prendre environ **40** minutes.
 
@@ -16,55 +16,55 @@ Vous avez besoin d’un [abonnement Azure](https://azure.microsoft.com/free) dan
 
 ## Provisionner un espace de travail Azure Synapse Analytics
 
-Vous aurez besoin d’un espace de travail Azure Synapse Analytics avec accès au stockage data lake et à un pool Apache Spark que vous pouvez utiliser pour interroger et traiter des fichiers dans le lac de données.
+Vous aurez besoin d’un espace de travail Azure Synapse Analytics avec accès au stockage du lac de données et d’un pool Apache Spark que vous pouvez utiliser pour interroger et traiter des fichiers dans le lac de données.
 
-Dans cet exercice, vous allez utiliser une combinaison d’un script PowerShell et d’un modèle ARM pour approvisionner un espace de travail Azure Synapse Analytics.
+Dans cet exercice, vous allez utiliser la combinaison d’un script PowerShell et d’un modèle ARM pour approvisionner un espace de travail Azure Synapse Analytics.
 
 1. Connectez-vous au [portail Azure](https://portal.azure.com) à l’adresse `https://portal.azure.com`.
-2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, en sélectionnant un environnement ***Bash*** et en créant le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
+2. Utilisez le bouton **[\>_]** à droite de la barre de recherche, en haut de la page, pour créer un environnement Cloud Shell dans le portail Azure, puis sélectionnez un environnement ***PowerShell*** et créez le stockage si vous y êtes invité. Cloud Shell fournit une interface de ligne de commande dans un volet situé en bas du portail Azure, comme illustré ici :
 
     ![Portail Azure avec un volet Cloud Shell](./images/cloud-shell.png)
 
-    > **Remarque** : Si vous avez créé un interpréteur de commandes cloud qui utilise un *environnement Bash* , utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
+    > **Remarque** : si vous avez créé un shell cloud qui utilise un environnement *Bash*, utilisez le menu déroulant en haut à gauche du volet Cloud Shell pour le remplacer par ***PowerShell***.
 
 3. Notez que vous pouvez redimensionner le volet Cloud Shell en faisant glisser la barre de séparation en haut du volet. Vous pouvez aussi utiliser les icônes **&#8212;** , **&#9723;** et **X** situées en haut à droite du volet pour réduire, agrandir et fermer le volet. Pour plus d’informations sur l’utilisation d’Azure Cloud Shell, consultez la [documentation Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/overview).
 
-4. Dans le terminal, entrez les commandes suivantes pour cloner ce dépôt :
+4. Dans le volet PowerShell, entrez les commandes suivantes pour cloner ce référentiel :
 
     ```
     rm -r dp-203 -f
     git clone https://github.com/MicrosoftLearning/dp-203-azure-data-engineer dp-203
     ```
 
-5. Une fois que le dépôt a été cloné, entrez les commandes suivantes pour accéder au dossier de ce labo et exécutez le script **setup.sh** qu’il contient :
+5. Une fois que le référentiel a été cloné, entrez les commandes suivantes pour accéder au dossier de cet exercice et exécutez le script **setup.ps1** qu’il contient :
 
     ```
     cd dp-203/Allfiles/labs/07
     ./setup.ps1
     ```
 
-6. Si vous y êtes invité, choisissez l’abonnement que vous souhaitez utiliser (cela se produit uniquement si vous avez accès à plusieurs abonnements Azure).
-7. Lorsque vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
+6. Si vous y êtes invité, choisissez l’abonnement à utiliser (uniquement si vous avez accès à plusieurs abonnements Azure).
+7. Quand vous y êtes invité, entrez un mot de passe approprié à définir pour votre pool Azure Synapse SQL.
 
-    > Veillez à le mémoriser.
+    > **Remarque** : veillez à mémoriser ce mot de passe.
 
-8. Attendez que le script se termine, ce qui prend généralement entre 5 et 10 minutes. Pendant que vous attendez, consultez l’article [What is Delta Lake](https://docs.microsoft.com/azure/synapse-analytics/spark/apache-spark-what-is-delta-lake) dans la documentation Azure Synapse Analytics.
+8. Attendez que le script se termine. Cela prend généralement environ 10 minutes, mais dans certains cas, cela peut prendre plus de temps. Pendant que vous attendez, consultez l’article [Présentation de Delta Lake](https://docs.microsoft.com/azure/synapse-analytics/spark/apache-spark-what-is-delta-lake) dans la documentation Azure Synapse Analytics.
 
 ## Créer des tables delta
 
-Le script provisionne un espace de travail Azure Synapse Analytics et un compte Stockage Azure pour héberger le lac de données, puis charge un fichier de données dans le lac de données.
+Le script approvisionne un espace de travail Azure Synapse Analytics et un compte Stockage Azure pour héberger le lac de données, puis charge un fichier de données dans le lac de données.
 
 ### Explorer les données dans le lac de données
 
-1. Une fois le script terminé, dans le Portail Azure, accédez au **groupe de ressources dp203-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
-2. Dans la **page Vue d’ensemble** de votre espace de travail Synapse, dans l’carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur ; connectez-vous si vous y êtes invité.
-3. Sur le côté gauche de Synapse Studio, utilisez l’icône **&rsaquo;&rsaquo;** pour développer le menu. Cela permet d’afficher les différentes pages de Synapse Studio qui vous permettront de gérer les ressources et d’effectuer des tâches d’analytique de données.
-4. Dans la **page Données**, affichez l’onglet **Lié** et vérifiez que votre espace de travail inclut un lien vers votre compte de stockage Azure Data Lake Stockage Gen2, qui doit avoir un nom similaire à **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
-5. Développez votre compte de stockage et vérifiez qu’il contient un conteneur de système de fichiers nommé **fichiers**.
-6. Sélectionnez le conteneur de **fichiers** , puis notez qu’il contient un dossier nommé **produits**. Ce dossier contient les données avec lesquelles vous allez travailler dans cet exercice.
-7. Ouvrez le **dossier des produits** et observez qu’il contient un fichier nommé **products.csv**.
-8. Sélectionnez **products.csv**, puis, dans la **liste Nouveau bloc-notes** de la barre d’outils, sélectionnez **Charger sur DataFrame**.
-9. Dans le volet **Notebook 1** qui s’ouvre, dans la liste **Attacher à**, sélectionnez le pool Spark **spark** créé précédemment et assurez-vous que le **Langage** est défini sur **PySpark (Python)**.
+1. Une fois le script terminé, dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
+2. Dans la page **Vue d’ensemble** de votre espace de travail Synapse, dans la carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
+3. Sur le côté gauche de Synapse Studio, utilisez l’icône **&rsaquo;&rsaquo;** pour développer le menu. Cela permet d’afficher les différentes pages de Synapse Studio qui vous permettront de gérer les ressources et d’effectuer des tâches d’analytique de données.
+4. Dans la page **Données**, affichez l’onglet **Lié** et vérifiez que votre espace de travail inclut un lien vers votre compte de stockage Azure Data Lake Storage Gen2, qui doit avoir un nom similaire à **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
+5. Développez votre compte de stockage et vérifiez qu’il contient un conteneur de système de fichiers nommé **files**.
+6. Sélectionnez le conteneur **files** et notez qu’il contient un dossier nommé **products**. Ce dossier contient les données avec lesquelles vous allez travailler dans cet exercice.
+7. Ouvrez le dossier **products** et notez qu’il contient un fichier nommé **products.csv**.
+8. Sélectionnez **products.csv** puis, dans la liste **Nouveau notebook** de la barre d’outils, sélectionnez **Charger dans DataFrame**.
+9. Dans le volet **Notebook 1** qui s’ouvre, dans la liste **Attacher à**, sélectionnez le pool Spark **sparkxxxxxxx** et assurez-vous que le **Langage** est défini sur **PySpark (Python)**.
 10. Examinez le code dans la première (et unique) cellule du notebook, qui doit se présenter comme suit :
 
     ```Python
@@ -95,18 +95,18 @@ Le script provisionne un espace de travail Azure Synapse Analytics et un compte 
     | 772 | Mountain-100 Silver, 42 | VTT | 3399.9900 |
     | ... | ... | ... | ... |
 
-### Charger des données filtrées dans une table Delta
+### Charger les données du fichier dans une table delta
 
-1. Sous les résultats retournés par la première cellule de code, utilisez le bouton **+ Code** pour ajouter une nouvelle cellule de code s’il n’en existe pas déjà. Entrez ensuite le code suivant dans la nouvelle cellule et exécutez-le :
+1. Sous les résultats retournés par la première cellule de code, utilisez le bouton **+ Code** pour ajouter une nouvelle cellule de code. Entrez ensuite le code suivant dans la nouvelle cellule et exécutez-le :
 
     ```Python
     delta_table_path = "/delta/products-delta"
     df.write.format("delta").save(delta_table_path)
     ```
 
-2. Sous l’onglet **Fichiers** , utilisez l’icône **&#8593 ;** dans la barre d’outils pour revenir à la racine du **conteneur de fichiers** et notez qu’un nouveau dossier nommé **delta** a été créé. Ouvrez ce dossier et la **table products-delta** qu’elle contient, où vous devez voir le ou les fichiers de format Parquet contenant les données.
+2. Sous l’onglet **Fichiers**, utilisez l’icône **↑** dans la barre d’outils pour revenir à la racine du conteneur **files** et notez qu’un nouveau dossier nommé **delta** a été créé. Ouvrez ce dossier et la table **products-delta** qu’il contient, où vous devez voir le ou les fichiers de format Parquet contenant les données.
 
-3. Revenez à l’onglet **Bloc-notes 1** et ajoutez une autre nouvelle cellule de code. Ensuite, dans la nouvelle cellule, ajoutez le code suivant et exécutez-le :
+3. Revenez à l’onglet **Notebook 1** et ajoutez une autre nouvelle cellule de code. Ensuite, dans la nouvelle cellule, ajoutez le code suivant et exécutez-le :
 
     ```Python
     from delta.tables import *
@@ -124,18 +124,18 @@ Le script provisionne un espace de travail Azure Synapse Analytics et un compte 
     deltaTable.toDF().show(10)
     ```
 
-    Les données sont chargées dans un **objet DeltaTable** et mises à jour. Les résultats de la requête s’affichent dans le volet des résultats.
+    Les données sont chargées dans un objet **DeltaTable** et mises à jour. La mise à jour est reflétée dans les résultats de la requête.
 
-4. Ajoutez une autre cellule de code et exécutez le code suivant :
+4. Ajoutez une nouvelle cellule de code avec le code suivant et exécutez-la :
 
     ```Python
     new_df = spark.read.format("delta").load(delta_table_path)
     new_df.show(10)
     ```
 
-    Le code charge les données de table delta dans une trame de données à partir de son emplacement dans le lac de données, en vérifiant que la modification que vous avez apportée via un **objet DeltaTable** a été conservée.
+    Le code charge les données de table Delta dans une trame de données à partir de son emplacement dans le lac de données, en vérifiant que la modification que vous avez apportée via un objet **DeltaTable** a été conservée.
 
-5. Modifiez le code que vous venez d’exécuter comme suit, en spécifiant l’option permettant d’utiliser la *fonctionnalité de voyage* temporel de delta lake pour afficher une version précédente des données.
+5. Modifiez le code que vous venez d’exécuter comme suit, en spécifiant l’option permettant d’utiliser la fonctionnalité de *voyage dans le temps* de Delta Lake pour afficher une version précédente des données.
 
     ```Python
     new_df = spark.read.format("delta").option("versionAsOf", 0).load(delta_table_path)
@@ -144,20 +144,20 @@ Le script provisionne un espace de travail Azure Synapse Analytics et un compte 
 
     Lorsque vous exécutez le code modifié, les résultats affichent la version d’origine des données.
 
-6. Ajoutez une autre cellule de code et exécutez le code suivant :
+6. Ajoutez une nouvelle cellule de code avec le code suivant et exécutez-la :
 
     ```Python
     deltaTable.history(10).show(20, False, True)
     ```
 
-    L’historique des 20 dernières modifications apportées à la table s’affiche : il doit y avoir deux (la création d’origine et la mise à jour que vous avez effectuée.)
+    L’historique des 20 dernières modifications apportées à la table s’affiche : il doit y en avoir deux (la création d’origine et la mise à jour que vous avez effectuée).
 
 ## Créer des tables de catalogue
 
-Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les données du dossier contenant les fichiers Parquet sur lesquels la table est basée. Vous pouvez définir des *tables* de catalogue qui encapsulent les données et fournissent une entité de table nommée que vous pouvez référencer dans le code SQL. Spark prend en charge deux types de tables de catalogue pour delta lake :
+Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les données du dossier contenant les fichiers Parquet sur lesquels la table est basée. Vous pouvez définir des *tables de catalogue* qui encapsulent les données et fournissent une entité de table nommée que vous pouvez référencer dans le code SQL. Spark prend en charge deux types de tables de catalogue pour delta lake :
 
-- *Tables externes* définies par le chemin d’accès aux fichiers Parquet contenant les données de la table.
-- *Tables managées* , définies dans le metastore Hive pour le pool Spark.
+- Les tables *externes* définies par le chemin d’accès aux fichiers Parquet contenant les données de la table.
+- Les tables *managées* définies dans le metastore Hive pour le pool Spark.
 
 ### Créer une table externe
 
@@ -169,9 +169,9 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     spark.sql("DESCRIBE EXTENDED AdventureWorks.ProductsExternal").show(truncate=False)
     ```
 
-    Ce code crée une base de données nommée **AdventureWorks** , puis crée un fichier externe nommé **ProductsExternal** dans cette base de données en fonction du chemin d’accès aux fichiers Parquet que vous avez définis précédemment. Il affiche ensuite une description des propriétés de la table. Notez que la **propriété Location** est le chemin que vous avez spécifié.
+    Ce code crée une base de données nommée **AdventureWorks**, puis crée une table externe nommée **ProductsExternal** dans cette base de données en fonction du chemin d’accès aux fichiers Parquet que vous avez définis précédemment. Il affiche ensuite une description des propriétés de la table. Notez que la propriété **Emplacement** correspond au chemin d’accès que vous avez spécifié.
 
-2. Sélectionnez Code pour ajouter une nouvelle cellule, puis entrez et exécutez le code suivant :
+2. Ajoutez une nouvelle cellule de code, puis entrez et exécutez le code suivant :
 
     ```sql
     %%sql
@@ -181,7 +181,7 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     SELECT * FROM ProductsExternal;
     ```
 
-    Le code utilise SQL pour basculer le contexte vers la **base de données AdventureWorks** (qui ne retourne aucune donnée), puis interroger la **table ProductsExternal** (qui retourne un jeu de résultats contenant les données des produits dans la table Delta Lake).
+    Le code utilise SQL pour basculer le contexte vers la base de données **AdventureWorks** (qui ne retourne aucune donnée), puis interroger la table **ProductsExternal** (qui retourne un jeu de résultats contenant les données des produits dans la table Delta Lake).
 
 ### Créer une table managée
 
@@ -192,9 +192,9 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     spark.sql("DESCRIBE EXTENDED AdventureWorks.ProductsManaged").show(truncate=False)
     ```
 
-    Ce code crée un produit nommé ProductsManaged** géré **basé sur le DataFrame que vous avez chargé à l’origine à partir du **fichier products.csv** (avant de mettre à jour le prix du produit 771). Vous ne spécifiez pas de chemin d’accès pour les fichiers Parquet utilisés par la table : il est géré pour vous dans le metastore Hive et affiché dans la propriété Location dans la **description de la table (dans les **fichiers/synapse/workspaces/synapsexxxxxxxxx/** warehouse** path).
+    Ce code crée une table managée nommée **ProductsManaged** basée sur le DataFrame que vous avez chargé à l’origine à partir du fichier **products.csv** (avant de mettre à jour le prix du produit 771). Vous ne spécifiez pas de chemin d’accès pour les fichiers Parquet utilisés par la table. Celui-ci est géré pour vous dans le metastore Hive et affiché dans la propriété **Emplacement** dans la description de la table (dans **files/synapse/workspaces/synapsexxxxxxx/warehouse**).
 
-2. Sélectionnez Code pour ajouter une nouvelle cellule, puis entrez et exécutez le code suivant :
+2. Ajoutez une nouvelle cellule de code, puis entrez et exécutez le code suivant :
 
     ```sql
     %%sql
@@ -204,9 +204,9 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     SELECT * FROM ProductsManaged;
     ```
 
-    Le code utilise SQL pour interroger la **table ProductsManaged** .
+    Le code utilise SQL pour interroger la table **ProductsManaged**.
 
-### Comparer des tables externes et gérées
+### Comparer des tables externes et managées
 
 1. Dans une nouvelle cellule de code, ajoutez et exécutez le code suivant :
 
@@ -218,9 +218,9 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     SHOW TABLES;
     ```
 
-    Ce code répertorie les tables de la **base de données AdventureWorks** .
+    Ce code répertorie les tables de la base de données **AdventureWorks**.
 
-2. Modifiez la cellule de code comme suit, ajoutez-la :
+2. Modifiez la cellule de code comme suit et exécutez-la :
 
     ```sql
     %%sql
@@ -233,12 +233,12 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
 
     Ce code supprime les tables du metastore.
 
-3. Revenez à l’onglet **Fichiers** et affichez le **dossier fichiers/delta/products-delta** . Notez que les fichiers de données existent toujours à cet emplacement. La suppression de la table externe a supprimé la table du metastore, mais a laissé les fichiers de données intacts.
-4. Affichez les **fichiers/synapse/workspaces/synapsexxxxxxx/warehouse** folder, et notez qu’il n’existe aucun dossier pour les données de **table ProductsManaged** . La suppression d’une table managée supprime la table du metastore et supprime également les fichiers de données de la table.
+3. Revenez à l’onglet **files** et affichez le dossier **files/delta/products-delta**. Notez que les fichiers de données existent toujours à cet emplacement. La suppression de la table externe a supprimé la table du metastore, mais a laissé les fichiers de données intacts.
+4. Affichez le dossier **files/synapse/workspaces/synapsexxxxxxx/warehouse**. Notez qu’il n’existe aucun dossier pour les données de table **ProductsManaged**. La suppression d’une table gérée entraîne celle de la table du metastore et des fichiers de données de cette table.
 
-### Créer une table à l’aide de l’interface utilisateur
+### Créer une table via SQL
 
-1. Sélectionnez Code pour ajouter une nouvelle cellule, puis entrez et exécutez le code suivant :
+1. Ajoutez une nouvelle cellule de code, puis entrez et exécutez le code suivant :
 
     ```sql
     %%sql
@@ -250,7 +250,7 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     LOCATION '/delta/products-delta';
     ```
 
-2. Sélectionnez Code pour ajouter une nouvelle cellule, puis entrez et exécutez le code suivant :
+2. Ajoutez une nouvelle cellule de code, puis entrez et exécutez le code suivant :
 
     ```sql
     %%sql
@@ -260,13 +260,13 @@ Jusqu’à présent, vous avez travaillé avec des tables delta en chargeant les
     SELECT * FROM Products;
     ```
 
-    Notez que la nouvelle table de catalogue a été créée pour le dossier de table Delta Lake existant, qui reflète les modifications apportées précédemment.
+    Notez que la nouvelle table de catalogue a été créée pour le dossier de table Delta Lake existant, qui tient compte des modifications apportées précédemment.
 
 ## Utiliser des tables delta pour les données de streaming
 
-Delta Lake prend en charge les données de streaming. Les tables delta peuvent être un *récepteur* ou une *source* pour des flux de données créés en utilisant l’API Spark Structured Streaming. Dans cet exemple, vous allez utiliser une table delta comme récepteur pour des données de streaming dans un scénario IoT (Internet des objets) simulé.
+Delta Lake prend en charge les données de diffusion en continu. Les tables delta peuvent être un *récepteur* ou une *source* pour des flux de données créés en utilisant l’API Spark Structured Streaming. Dans cet exemple, vous allez utiliser une table delta comme récepteur pour des données de streaming dans un scénario IoT (Internet des objets) simulé.
 
-1. Revenez à l’onglet **Bloc-notes 1** et ajoutez une nouvelle cellule de code. Ensuite, dans la nouvelle cellule, ajoutez le code suivant et exécutez-le :
+1. Revenez à l’onglet **Notebook 1** et ajoutez une nouvelle cellule de code. Ensuite, dans la nouvelle cellule, ajoutez le code suivant et exécutez-le :
 
     ```python
     from notebookutils import mssparkutils
@@ -310,7 +310,7 @@ Delta Lake prend en charge les données de streaming. Les tables delta peuvent �
     print("Streaming to delta sink...")
     ```
 
-    Ce code écrit les données des appareils de streaming au format delta dans un dossier nommé iotdevicedata.
+    Ce code écrit les données des appareils de streaming au format delta.
 
 3. Dans une nouvelle cellule de code, ajoutez et exécutez le code suivant :
 
@@ -320,7 +320,7 @@ Delta Lake prend en charge les données de streaming. Les tables delta peuvent �
     display(df)
     ```
 
-    Ce code lit les données diffusées au format delta dans un dataframe. Notez que le code permettant de charger des données de streaming n’est pas différent de celui utilisé pour charger des données statiques à partir d’un dossier delta.
+    Ce code lit les données diffusées en continu au format delta dans un dataframe. Notez que le code permettant de charger des données de streaming n’est pas différent de celui utilisé pour charger des données statiques à partir d’un dossier delta.
 
 4. Dans une nouvelle cellule de code, ajoutez et exécutez le code suivant :
 
@@ -329,7 +329,7 @@ Delta Lake prend en charge les données de streaming. Les tables delta peuvent �
     spark.sql("CREATE TABLE IotDeviceData USING DELTA LOCATION '{0}'".format(delta_stream_table_path))
     ```
 
-    Ce code crée une table de catalogue nommée **IotDeviceData** (dans la **base de données par défaut** ) basée sur le dossier delta. Là encore, ce code est identique à celui utilisé pour les données qui ne sont pas diffusées en continu.
+    Ce code crée une table de catalogue nommée **IotDeviceData** (dans la base de données **par défaut**) à partir du dossier delta. Là encore, ce code est identique à celui utilisé pour les données qui ne sont pas diffusées en continu.
 
 5. Dans une nouvelle cellule de code, ajoutez et exécutez le code suivant :
 
@@ -376,14 +376,14 @@ Delta Lake prend en charge les données de streaming. Les tables delta peuvent �
 
     Ce code arrête le flux.
 
-## Interroger une table delta à partir d’un pool SQL serverless
+## Interroger une table delta à partir d’un pool SQL serverless
 
-Outre les pools Spark, Azure Synapse Analytics inclut un pool SQL serverless intégré. Vous pouvez utiliser le moteur de base de données relationnelle dans ce pool pour interroger des tables delta à l’aide de SQL.
+Outre les pools Spark, Azure Synapse Analytics inclut un pool SQL sans serveur intégré. Vous pouvez utiliser le moteur de base de données relationnelle dans ce pool pour interroger des tables delta via SQL.
 
-1. Sous l’onglet **Fichiers** , accédez au **dossier fichiers/delta** .
-2. Sélectionnez le **dossier products-delta** , puis, dans la barre d’outils, dans la **liste déroulante Nouveau script** SQL, sélectionnez **Sélectionner 100 lignes** TOP 100.
-3. Dans le **volet Sélectionner 100 lignes** TOP 100, dans la liste type **de fichier** , sélectionnez **Format** Delta, puis sélectionnez **Appliquer**.
-4. Passez en revue le code SQL généré, qui doit ressembler à ceci :
+1. Dans l’onglet **Fichiers**, accédez au dossier **dfiles/delta**.
+2. Sélectionnez le dossier **products-delta**, puis, dans la barre d’outils, dans la liste déroulante **Nouveau script SQL**, sélectionnez **Sélectionner les 100 premières lignes**.
+3. Dans le volet **Sélectionner les 100 premières lignes**, dans la liste **Type de fichier**, sélectionnez **Format delta**, puis **Appliquer**.
+4. Passez en revue le code SQL généré, qui doit ressembler à ceci :
 
     ```sql
     -- This is auto-generated code
@@ -396,7 +396,7 @@ Outre les pools Spark, Azure Synapse Analytics inclut un pool SQL serverless int
         ) AS [result]
     ```
 
-5. Utiliser le **&#9655 ; Icône Exécuter** pour exécuter le script et passer en revue les résultats. L’application doit ressembler à ceci :
+5. Utilisez l’icône **▷ Exécuter** pour exécuter le script et passer en revue les résultats. L’application doit ressembler à ceci :
 
     | ProductID | ProductName | Catégorie | ListPrice |
     | -- | -- | -- | -- |
@@ -404,9 +404,9 @@ Outre les pools Spark, Azure Synapse Analytics inclut un pool SQL serverless int
     | 772 | Mountain-100 Silver, 42 | VTT | 3399.9900 |
     | ... | ... | ... | ... |
 
-    Cela montre comment utiliser un pool SQL serverless pour interroger des fichiers de format delta créés à l’aide de Spark et utiliser les résultats pour la création de rapports ou l’analyse.
+    Cela explique comment utiliser un pool SQL serverless pour interroger des fichiers de format Delta créés à l’aide de Spark et utiliser les résultats pour la création de rapports ou l’analyse.
 
-6. Remplacez le code généré par la requête suivante :
+6. Remplacez la requête par le code SQL suivant :
 
     ```sql
     USE AdventureWorks;
@@ -414,7 +414,7 @@ Outre les pools Spark, Azure Synapse Analytics inclut un pool SQL serverless int
     SELECT * FROM Products;
     ```
 
-7. Exécutez le code et observez que vous pouvez également utiliser le pool SQL serverless pour interroger les données Delta Lake dans les tables de catalogue définies par le metastore Spark.
+7. Exécutez le code et notez que vous pouvez également utiliser le pool SQL serverless pour interroger les données Delta Lake dans les tables de catalogue définies par le metastore Spark.
 
 ## Supprimer les ressources Azure
 
@@ -422,8 +422,8 @@ Si vous avez fini d’explorer Azure Synapse Analytics, vous devriez supprimer l
 
 1. Fermez l’onglet du navigateur Synapse Studio et revenez dans le portail Azure.
 2. Dans le portail Azure, dans la page **Accueil**, sélectionnez **Groupes de ressources**.
-3. Sélectionnez le groupe de ressources pour votre espace de travail Synapse Analytics (et non le groupe de ressources managé) et vérifiez qu’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark pour votre espace de travail.
+3. Sélectionnez le groupe de ressources **dp203-*xxxxxxx*** de votre espace de travail Synapse Analytics (et non le groupe de ressources managé) et vérifiez qu’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark de votre espace de travail.
 4. Au sommet de la page **Vue d’ensemble** de votre groupe de ressources, sélectionnez **Supprimer le groupe de ressources**.
-5. Entrez le nom du groupe de ressources pour confirmer que vous souhaitez le supprimer, puis sélectionnez Supprimer.
+5. Entrez le nom du groupe de ressources **dp203-*xxxxxxx*** pour confirmer que vous souhaitez le supprimer, puis sélectionnez **Supprimer**.
 
-    Après quelques minutes, votre espace de travail Azure Synapse et l’espace de travail managé qui lui est associé seront supprimés.
+    Après quelques minutes, le groupe de ressources de l’espace de travail Azure Synapse et le groupe de ressources managé de l’espace de travail qui lui est associé seront supprimés.
