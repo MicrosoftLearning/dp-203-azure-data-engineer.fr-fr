@@ -55,8 +55,8 @@ Le script configure un espace de travail Azure Synapse Analytics et un compte 
 
 ### Afficher les fichiers dans le lac de données
 
-1. Une fois le script terminé, dans le portail Azure, accédez au groupe de ressources **dp500-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
-2. Dans la page **Vue d’ensemble** de votre espace de travail Synapse, dans la carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
+1. Une fois le script terminé, dans le portail Azure, accédez au groupe de ressources **dp203-*xxxxxxx*** qu’il a créé, puis sélectionnez votre espace de travail Synapse.
+2. Dans la page **Vue d’ensemble** de votre espace de travail Synapse, dans la carte **Ouvrir Synapse Studio**, sélectionnez **Ouvrir** pour ouvrir Synapse Studio dans un nouvel onglet de navigateur. Connectez-vous si vous y êtes invité.
 3. Sur le côté gauche de Synapse Studio, utilisez l’icône **&rsaquo;&rsaquo;** pour développer le menu. Cela permet d’afficher les différentes pages de Synapse Studio qui vous permettront de gérer les ressources et d’effectuer des tâches d’analytique de données.
 4. Sur la page **Gérer**, sélectionnez l’onglet **Pools Apache Spark** et notez qu’un pool Spark portant un nom similaire à **spark*xxxxxxx*** a été provisionné dans l’espace de travail. Vous utiliserez ce pool Spark plus tard pour charger et analyser des données contenues dans les fichiers du lac de données stockés dans l’espace de travail.
 5. Dans la page **Données**, affichez l’onglet **Lié** et vérifiez que votre espace de travail inclut un lien vers votre compte de stockage Azure Data Lake Storage Gen2, qui doit avoir un nom similaire à **synapse*xxxxxxx* (Primary - datalake*xxxxxxx*)**.
@@ -424,8 +424,8 @@ Si vous avez fini d’explorer Azure Synapse Analytics, vous devriez supprimer l
 
 1. Fermez l’onglet du navigateur Synapse Studio et revenez dans le portail Azure.
 2. Dans le portail Azure, dans la page **Accueil**, sélectionnez **Groupes de ressources**.
-3. Sélectionnez le groupe de ressources **dp500-*xxxxxxx*** pour votre espace de travail Synapse Analytics (et non le groupe de ressources managé) et vérifiez qu’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark correspondant.
+3. Sélectionnez le groupe de ressources **dp203-*xxxxxxx*** de votre espace de travail Synapse Analytics (et non le groupe de ressources managé) et vérifiez qu’il contient l’espace de travail Synapse, le compte de stockage et le pool Spark de votre espace de travail.
 4. Au sommet de la page **Vue d’ensemble** de votre groupe de ressources, sélectionnez **Supprimer le groupe de ressources**.
-5. Entrez le nom du groupe de ressources **dp500-*xxxxxxx*** pour confirmer que vous souhaitez le supprimer, puis sélectionnez **Supprimer**.
+5. Entrez le nom du groupe de ressources **dp203-*xxxxxxx*** pour confirmer que vous souhaitez le supprimer, puis sélectionnez **Supprimer**.
 
     Après quelques minutes, le groupe de ressources de l’espace de travail Azure Synapse et le groupe de ressources managé de l’espace de travail qui lui est associé seront supprimés.
